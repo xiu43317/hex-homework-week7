@@ -117,19 +117,20 @@ export default {
           this.isLoading = false
         })
         .catch((err) => {
-          console.dir(err)
+          // console.dir(err)
+          alert(err.response.data.message)
           this.isLoading = false
         })
     },
     deleteCoupon (id) {
       this.$http.delete(`${url}/api/${path}/admin/coupon/${id}`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           alert(res.data.message)
           this.$refs.delCouponModal.closeModal()
           this.getCoupons()
         }).catch((err) => {
-          alert(err.message)
+          alert(err.response.data.message)
           this.$refs.delCouponModal.closeModal()
         })
     },
@@ -164,7 +165,7 @@ export default {
           })
           .catch((err) => {
             // console.log(err)
-            alert(err.data.message)
+            alert(err.response.data.message)
           })
       }
     }

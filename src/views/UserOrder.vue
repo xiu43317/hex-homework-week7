@@ -14,13 +14,13 @@
         <tr v-for="item in order.products" :key="item.id">
           <td>{{ item.product.title }}</td>
           <td>{{ item.qty }}/{{ item.product.unit }}</td>
-          <td class="text-end">{{ item.final_total }}</td>
+          <td class="text-end">{{ currency(item.final_total) }}</td>
         </tr>
       </tbody>
       <tfoot>
           <tr>
             <td colspan="2" class="text-end">總計</td>
-            <td class="text-end">{{ order.total }}</td>
+            <td class="text-end">{{ currency(order.total) }}</td>
           </tr>
         </tfoot>
     </table>
@@ -56,7 +56,9 @@
         class="btn btn-danger"
         :disabled="isPaying"
         @click="payOrder(this.id)"
-        >確認付款去
+        >
+        <font-awesome-icon icon="spinner" class="fa-spin" v-show="isPaying"/>
+        確認付款去
         </button>
       </div>
   </div>
@@ -106,6 +108,10 @@ export default {
           this.isPaying = false
           alert(err.reponse.data.message)
         })
+    },
+    currency (num) {
+      const n = parseInt(num, 10)
+      return `${n.toFixed(0).replace(/./g, (c, i, a) => (i && c !== '.' && ((a.length - i) % 3 === 0) ? `, ${c}`.replace(/\s/g, '') : c))}`
     }
   },
   mounted () {

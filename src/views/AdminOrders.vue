@@ -26,7 +26,7 @@
                 </li>
               </ul>
             </td>
-            <td class="text-right">{{ item.total }}</td>
+            <td class="text-right">{{ currency(item.total) }}</td>
             <td>
               <div class="form-check form-switch">
                 <input
@@ -130,13 +130,17 @@ export default {
         })
     },
     deleteOrder (id) {
-      this.$http(`${url}/api/path/admin/order/${id}`)
+      this.isLoading = true
+      this.$http.delete(`${url}/api/${path}/admin/order/${id}`)
         .then((res) => {
-          console.log(res)
+          this.isLoading = false
+          alert(res.data.message + '該訂單')
           this.$refs.deleteModal.hideModal()
+          this.getOrders()
         })
         .catch((err) => {
-          console.log(err)
+          this.isLoading = false
+          alert(err.response.data.message)
           this.$refs.deleteModal.hideModal()
         })
     },

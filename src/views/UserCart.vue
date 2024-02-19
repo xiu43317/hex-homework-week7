@@ -173,7 +173,10 @@
           ></textarea>
         </div>
         <div class="text-end">
-          <button type="submit" class="btn btn-danger">送出訂單</button>
+          <button type="submit" class="btn btn-danger" :disabled="isSending">
+          <font-awesome-icon icon="spinner" class="fa-spin" v-show="isSending"/>
+            送出訂單
+          </button>
         </div>
       </v-form>
     </div>
@@ -204,7 +207,8 @@ export default {
       isDiscount: false,
       isLoading: false,
       isEntering: false,
-      isDeleteAll: false
+      isDeleteAll: false,
+      isSending: false
     }
   },
   methods: {
@@ -216,6 +220,7 @@ export default {
       if (this.cart.carts.length === 0) {
         alert('購物車不得為空')
       } else {
+        this.isSending = true
         // console.log(this.user);
         const userDetail = {
           data: {
@@ -226,12 +231,18 @@ export default {
         this.$http
           .post(`${url}/api/${path}/order`, userDetail)
           .then((res) => {
-            // console.log(res);
+            this.isSending = false
             alert(res.data.message)
+            this.user = {
+              name: '',
+              email: '',
+              tel: '',
+              address: ''
+            }
             this.getCart()
           })
           .catch((err) => {
-            // console.log(err);
+            this.isSending = false
             let str = ''
             err.data.message.forEach((item) => {
               str += item + '\n\r'

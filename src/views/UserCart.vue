@@ -233,13 +233,14 @@ export default {
           .then((res) => {
             this.isSending = false
             alert(res.data.message)
-            this.user = {
-              name: '',
-              email: '',
-              tel: '',
-              address: ''
-            }
-            this.getCart()
+            // this.user = {
+            //   name: '',
+            //   email: '',
+            //   tel: '',
+            //   address: ''
+            // }
+            // this.getCart()
+            location.reload()
           })
           .catch((err) => {
             this.isSending = false
